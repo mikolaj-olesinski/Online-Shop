@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Szczegoly kategorii</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+<h1>Szczegoly kategorii</h1>
+
+<div class="details-container">
+  <table class="table details-table" th:object="${category}">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="*{id}"></td>
+        <td th:text="*{name}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

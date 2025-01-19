@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Produkt Details</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+<h1>Produkt Details</h1>
+
+<div class="details-container">
+  <table class="table details-table" th:object="${product}">
+    <thead>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Id</td>
+      <td th:text="*{id}"></td>
+    </tr>
+    <tr>
+      <td>Nazwa</td>
+      <td th:text="*{name}"></td>
+    </tr>
+    <tr>
+      <td>Waga</td>
+      <td th:text="*{weight} + ' kg'"></td>
+    </tr>
+    <tr>
+      <td>Cena</td>
+      <td th:text="*{price} + ' zł'"></td>
+    </tr>
+    <tr>
+      <td>Kategoria</td>
+      <td th:text="*{category.name}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

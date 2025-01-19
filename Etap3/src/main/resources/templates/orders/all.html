@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wszystkie Zamówienia</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+
+<h1>Wszystkie Zamówienia</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID Zamówienia</th>
+        <th>Użytkownik</th>
+        <th>Koszyk</th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.user.userName}"></td>
+        <td th:text="${order.cart.id}"></td>
+        <td>
+            <a href="#">Szczegóły</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
