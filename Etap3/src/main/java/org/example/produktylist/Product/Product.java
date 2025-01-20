@@ -16,10 +16,19 @@ public class Product {
     private long id;
 
     private String name;
-    private double weight;
     private double price;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    // Nowe pola:
+    private String image1;
+    private String image2;
+    private String image3;
+    private String image4;
+
+    private String description1;
+    private String description2;
 }

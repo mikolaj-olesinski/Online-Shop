@@ -2,28 +2,123 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/style.css">
-  <title>Edit Produkt Form</title>
+  <title>Edycja produktu</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-<h1>Edit Produkt</h1>
-<form action="#" th:action="@{/product/edit}" th:object="${product}" method="post">
-  <p>ID: <input type="number" th:field="*{id}" readonly/></p>
-  <p>Nazwa: <input type="text" th:field="*{name}" required/></p>
-  <p>Cena: <input type="number" step="0.01" th:field="*{price}" required /></p>
-  <p>Waga: <input type="number" step="0.01" th:field="*{weight}" required /></p>
+<div class="product-details">
+  <div class="header">
+    <h1>Edycja produktu</h1>
+  </div>
 
-  <p>Kategoria:
-    <select th:field="*{category.id}">
-      <option th:each="category : ${categoriesList}"
-              th:value="${category.id}"
-              th:text="${category.name}"></option>
-    </select>
-  </p>
+  <form th:action="@{/product/edit}" method="POST" th:object="${product}">
+    <input type="hidden" th:field="*{id}">
+    <div class="details-grid">
+      <div class="product-info">
+        <div class="info-group">
+          <div class="info-label">kod:</div>
+          <div class="info-value" th:text="*{id}">acx123</div>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Nazwa</div>
+          <input type="text" th:field="*{name}" class="input-field">
+        </div>
+        <div class="info-group">
+          <div class="info-label">Cena</div>
+          <input type="number" step="0.01" th:field="*{price}" class="input-field">
+        </div>
+        <div class="info-group">
+          <div class="info-label">Kategoria</div>
+          <select th:field="*{category}" class="input-field">
+            <option th:each="cat : ${categoriesList}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}"></option>
+          </select>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Opis1</div>
+          <textarea th:field="*{description1}" class="input-field" rows="3"></textarea>
+        </div>
+        <div class="info-group">
+          <div class="info-label">Opis2</div>
+          <textarea th:field="*{description2}" class="input-field" rows="3"></textarea>
+        </div>
 
-  <p><input type="submit" value="Modify" /></p>
-</form>
+        <!-- Przycisk "Zapisz zmiany" bezpośrednio pod opis2 -->
+        <div class="save-button-container" style="text-align: left; margin-top: 20px;">
+          <button type="submit" class="save-button">Zapisz zmiany</button>
+        </div>
+      </div>
 
+      <div class="photos-section">
+        <!-- Foto 1 -->
+        <div class="photo-box" onclick="toggleEditField('image-url1')">
+          <div th:if="${product.image1 != null}">
+            <img th:src="${product.image1}" alt="Product image1" />
+          </div>
+          <div th:if="${product.image1 == null}">
+            <span>Dodaj zdjęcie</span>
+          </div>
+          <input type="text" id="image-url1" th:field="*{image1}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
+        </div>
+
+        <!-- Foto 2 -->
+        <div class="photo-box" onclick="toggleEditField('image-url2')">
+          <div th:if="${product.image2 != null}">
+            <img th:src="${product.image2}" alt="Product image2" />
+          </div>
+          <div th:if="${product.image2 == null}">
+            <span>Dodaj zdjęcie</span>
+          </div>
+          <input type="text" id="image-url2" th:field="*{image2}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
+        </div>
+
+        <!-- Foto 3 -->
+        <div class="photo-box" onclick="toggleEditField('image-url3')">
+          <div th:if="${product.image3 != null}">
+            <img th:src="${product.image3}" alt="Product image3" />
+          </div>
+          <div th:if="${product.image3 == null}">
+            <span>Dodaj zdjęcie</span>
+          </div>
+          <input type="text" id="image-url3" th:field="*{image3}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
+        </div>
+
+        <!-- Foto 4 -->
+        <div class="photo-box" onclick="toggleEditField('image-url4')">
+          <div th:if="${product.image4 != null}">
+            <img th:src="${product.image4}" alt="Product image4" />
+          </div>
+          <div th:if="${product.image4 == null}">
+            <span>Dodaj zdjęcie</span>
+          </div>
+          <input type="text" id="image-url4" th:field="*{image4}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function toggleEditField(imageId) {
+    const inputField = document.getElementById(imageId);
+    const currentDisplay = inputField.style.display;
+
+    // Ukrywamy inne pola input
+    const allInputs = document.querySelectorAll(".photo-box input[type='text']");
+    allInputs.forEach(input => {
+      if (input !== inputField) {
+        input.style.display = "none"; // Ukrywamy inne pola
+      }
+    });
+
+    // Zmiana widoczności wybranego pola
+    inputField.style.display = currentDisplay === 'block' ? 'none' : 'block';
+    if (inputField.style.display === 'block') {
+      inputField.focus();
+    }
+  }
+</script>
 
 </body>
 </html>

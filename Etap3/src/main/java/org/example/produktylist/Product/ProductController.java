@@ -21,7 +21,6 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
-
     @GetMapping("/")
     public String listProducts(Authentication authentication, Model model) {
         List<Product> productList = productService.getAllProducts();
@@ -33,11 +32,10 @@ public class ProductController {
         return "product/index";
     }
 
-
     @GetMapping("/add")
     public String addProduct(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categotiesList", categoryService.getAllCategories());
+        model.addAttribute("categoriesList", categoryService.getAllCategories());
         return "product/add";
     }
 
@@ -54,7 +52,6 @@ public class ProductController {
         return "product/edit";
     }
 
-
     @PostMapping("/edit")
     public String editProduct(@ModelAttribute Product product) {
         if (product.getCategory() == null) {
@@ -65,15 +62,12 @@ public class ProductController {
         return "redirect:/product/";
     }
 
-
-
     @GetMapping("/{productId}/details")
     public String productDetails(@PathVariable Long productId, Model model) {
         model.addAttribute("product", productService.getProductById(productId));
-        model.addAttribute("categoriesList", categoryService.getAllCategories());
+        model.addAttribute("isAdmin", true); // or your actual admin check
         return "product/details";
     }
-
 
     @GetMapping("/{productId}/remove")
     public String removeProduct(@PathVariable Long productId) {

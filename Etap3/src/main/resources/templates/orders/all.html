@@ -1,34 +1,119 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Wszystkie Zamówienia</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zamówienia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f3f4f6;
+        }
+
+        .orders-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .order-row {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .clickable-row:hover {
+            background-color: #f9fafb;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: none;
+        }
+
+        .total-price {
+            font-weight: 600;
+            color: #374151;
+        }
+    </style>
 </head>
 <body>
+<h1>Zamówienia</h1>
+<div class="orders-container">
+    <div th:each="order : ${orders}" class="order-row">
+        <table>
+            <thead>
+            <tr>
+                <th>NUMER</th>
+                <th>IMIĘ NAZWISKO</th>
+                <th>PRZEDMIOTY</th>
+                <th>CENA</th>
+                <th>STATUS</th>
+                <th>DATA</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="clickable-row" th:attr="data-order-id=${order.id}">
+                <td th:text="${order.id}">12345</td>
+                <td th:text="${order.dataForm.firstName + ' ' + order.dataForm.lastName}">Jan Kowalski</td>
+                <td>
+                    <ul>
+                        <li th:each="item : ${order.cart.items}"
+                            th:text="${item.quantity + 'x ' + item.product.name}"
+                            th:attr="data-price=${item.product.price},data-quantity=${item.quantity}">
+                        </li>
+                    </ul>
+                </td>
+                <td class="total-price"></td>
+                <td th:text="${order.status}">w realizacji</td>
+                <td th:text="${order.deliveryDate}">26.11.2024</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<h1>Wszystkie Zamówienia</h1>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obliczanie ceny dla każdego zamówienia
+        document.querySelectorAll('.order-row').forEach(order => {
+            let totalPrice = 0;
+            order.querySelectorAll('li').forEach(item => {
+                const price = parseFloat(item.dataset.price);
+                const quantity = parseInt(item.dataset.quantity);
+                totalPrice += price * quantity;
+            });
+            order.querySelector('.total-price').textContent = totalPrice.toFixed(2) + ' zł';
+        });
 
-<table>
-    <thead>
-    <tr>
-        <th>ID Zamówienia</th>
-        <th>Użytkownik</th>
-        <th>Koszyk</th>
-        <th>Akcje</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.user.userName}"></td>
-        <td th:text="${order.cart.id}"></td>
-        <td>
-            <a href="#">Szczegóły</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
+        // Przekierowanie do szczegółów zamówienia po kliknięciu
+        document.querySelectorAll('.clickable-row').forEach(row => {
+            row.addEventListener('click', function() {
+                const orderId = this.dataset.orderId;
+                window.location.href = `/orders/${orderId}`;
+            });
+        });
+    });
+</script>
 </body>
 </html>

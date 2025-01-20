@@ -2,6 +2,7 @@ package org.example.produktylist.Order;
 
 import lombok.*;
 import org.example.produktylist.Cart.Cart;
+import org.example.produktylist.DataForm.DataForm;
 import org.example.produktylist.User.User;
 
 import javax.persistence.*;
@@ -11,19 +12,22 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "orders")  // Zmiana nazwy tabeli na "orders"
+@Table(name = "orders")  // Tabela dla zamówień
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Powiązanie z użytkownikiem
 
     @OneToOne
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart; // Powiązanie z koszykiem
 
-    // Możesz dodać inne atrybuty, jak data zamówienia, status, itp.
-} 
+    @OneToOne(cascade = CascadeType.ALL) // Kaskadowa operacja na formularzu danych
+    @JoinColumn(name = "data_form_id", nullable = false)
+    private DataForm dataForm;
+
+    private String deliveryDate;
+    private String status;
+    private String statusDate;
+}

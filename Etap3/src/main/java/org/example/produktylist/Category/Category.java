@@ -18,7 +18,7 @@ public class Category {
     private long id;
     private String name;
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 

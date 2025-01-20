@@ -2,13 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Produkty List</title>
+  <title>Przeglądanie katalogu</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-
 <nav class="navbar">
-  <div class="logo">Shop</div>
   <div class="nav-links">
     <a href="/product/" th:if="${isAdmin}">Produkty</a>
     <a href="/category/" th:if="${isAdmin}">Kategorie</a>
@@ -17,38 +15,24 @@
   </div>
 </nav>
 
-<h1>Produkty List</h1>
-
-<div class="button-container">
-  <a class="btn btn-primary" href="/category/">Kategorie</a>
-  <a class="btn btn-primary" href="/product/add">Add Produkt</a>
+<div class="nasze-produkty">
+  <h2>Nasze produkty</h2>
+  <a href="/product/add" class="add-icon" th:if="${isAdmin}">+</a>
 </div>
 
-<div class="content">
-  <table class="table product-list">
-    <thead>
-    <tr>
-      <th>Id</th>
-      <th>Nazwa</th>
-      <th>Waga</th>
-      <th>Cena</th>
-      <th>Kategoria</th>
-      <th colspan="3">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product : ${productList}">
-      <td th:text="${product.id}"></td>
-      <td th:text="${product.name}"></td>
-      <td th:text="${product.weight} + ' kg'"></td>
-      <td th:text="${#numbers.formatDecimal(product.price,1,2)} + ' zł'"></td>
-      <td th:text="${product.category.name}"></td>
-      <td><a class="btn btn-action" th:href="@{/product/{productId}/details(productId=${product.id})}">Details</a></td>
-      <td><a class="btn btn-action" th:href="@{/product/{productId}/edit(productId=${product.id})}">Edit</a></td>
-      <td><a class="btn btn-action" th:href="@{/product/{productId}/remove(productId=${product.id})}">Remove</a></td>
-    </tr>
-    </tbody>
-  </table>
+<div class="products-grid">
+  <a th:href="@{/product/{productId}/details(productId=${product.id})}"
+     class="product-card"
+     th:each="product : ${productList}">
+    <img th:src="${product.image1}" class="product-image" alt="Product image">
+    <div class="product-info">
+      <div class="product-name" th:text="${product.name}">Nazwa produktu</div>
+      <div class="product-price">
+        <span th:text="${#numbers.formatDecimal(product.price,1,2)}">Cena produktu</span>zł
+      </div>
+      <div class="product-code" th:text="'kod: ' + ${product.id}">id produktu</div>
+    </div>
+  </a>
 </div>
 </body>
 </html>

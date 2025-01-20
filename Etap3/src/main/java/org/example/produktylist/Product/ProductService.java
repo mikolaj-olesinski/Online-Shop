@@ -28,9 +28,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
-
 }
