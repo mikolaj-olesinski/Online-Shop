@@ -1,5 +1,6 @@
 package org.example.produktylist.Order;
 
+import com.itextpdf.text.DocumentException;
 import org.example.produktylist.DataForm.DataForm;
 import org.example.produktylist.Message.Message;
 import org.example.produktylist.ShippingLabel.ShippingLabelService;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.example.produktylist.Message.MessageService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -84,28 +86,46 @@ public class OrderController {
     @PostMapping("/{orderId}/update-status")
     @ResponseBody
     public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId, @RequestBody Map<String, String> payload) {
-        String status = payload.get("status");
+        try {
+            String status = payload.get("status");
 
-        // Znajdź zamówienie
-        Order order = orderService.getOrderById(orderId);
+            Order order = orderService.getOrderById(orderId);
 
-        // Zaktualizuj status
-        order.setStatus(status);
-        order.setStatusDate(java.time.LocalDate.now().toString());
+            order.setStatus(status);
+            order.setStatusDate(java.time.LocalDate.now().toString());
 
-        // Zapisz zmiany w zamówieniu
-        orderService.saveOrder(order);
+            orderService.saveOrder(order);
 
-        // Wygeneruj i zapisz odpowiednią wiadomość
-        String messageContent = messageService.getMessageForStatus(status, order);
-        Message message = messageService.createMessage(order, messageContent);
+            String messageContent = messageService.getMessageForStatus(status, order);
+            Message message = messageService.createMessage(order, messageContent);
 
-        // Zwróć odpowiedź JSON z komunikatem
-        return ResponseEntity.ok(Map.of(
-                "message", "Status zaktualizowany pomyślnie",
-                "status", status,
-                "newMessage", message.getContent()
-        ));
+            // Jeśli status to "wysłane", generujemy list przewozowy
+            if ("wysłane".equals(status)) {
+                try {
+                    shippingLabelService.generateShippingLabel(order);
+                } catch (IOException | DocumentException e) {
+                    // Logujemy błąd, ale pozwalamy kontynuować aktualizację statusu
+                    e.printStackTrace();
+                    return ResponseEntity.ok(Map.of(
+                            "message", "Status zaktualizowany, ale wystąpił błąd podczas generowania listu przewozowego",
+                            "status", status,
+                            "newMessage", message.getContent(),
+                            "error", "Nie udało się wygenerować listu przewozowego: " + e.getMessage()
+                    ));
+                }
+            }
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Status zaktualizowany pomyślnie",
+                    "status", status,
+                    "newMessage", message.getContent()
+            ));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Wystąpił błąd podczas aktualizacji statusu: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/{orderId}/shipping-label")

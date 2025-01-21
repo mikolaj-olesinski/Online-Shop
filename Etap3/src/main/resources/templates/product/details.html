@@ -50,29 +50,27 @@
 
     <div class="photos-section details-view">
       <div class="photo-box">
-        <img th:src="${product.image1}" alt="Product image1" th:if="${product.image1}">
+        <img th:src="${product.image1}" alt="Product image1" th:if="${product.image1 != null and product.image1 != ''}">
       </div>
 
       <div class="photo-box">
-        <img th:src="${product.image2}" alt="Product image2" th:if="${product.image2}">
+        <img th:src="${product.image2}" alt="Product image2" th:if="${product.image2 != null and product.image2 != ''}">
       </div>
 
       <div class="photo-box">
-        <img th:src="${product.image3}" alt="Product image3" th:if="${product.image3}">
+        <img th:src="${product.image3}" alt="Product image3" th:if="${product.image3 != null and product.image3 != ''}">
       </div>
 
       <div class="photo-box">
-        <img th:src="${product.image4}" alt="Product image4" th:if="${product.image4}">
+        <img th:src="${product.image4}" alt="Product image4" th:if="${product.image4 != null and product.image4 != ''}">
       </div>
     </div>
 
     <div class="comments-section">
       <h2>Komentarze:</h2>
 
-      <!-- Pętla wyświetlająca komentarze -->
       <div th:each="comment : ${comments}">
         <div class="comment-box">
-          <!-- Ikona profilowa i nazwa użytkownika -->
           <div class="comment-header">
             <div class="profile-image">
               <img src="https://static-00.iconduck.com/assets.00/profile-user-icon-1024x1024-5fg7tz2z.png" alt="Profil" class="profile-img" />
@@ -85,12 +83,10 @@
             </div>
           </div>
 
-          <!-- Treść komentarza -->
           <div class="comment-content">
             <p th:text="${comment.content}">Świetny produkt!</p>
           </div>
 
-          <!-- Przycisk usunięcia komentarza tylko dla admina -->
           <div th:if="${isAdmin}" class="delete-comment-container">
             <a th:href="@{/product/{productId}/remove-comment(productId=${product.id}, id=${comment.id})}"
                onclick="return confirm('Czy na pewno chcesz usunąć ten komentarz?');"

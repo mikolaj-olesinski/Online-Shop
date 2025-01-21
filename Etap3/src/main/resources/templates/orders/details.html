@@ -27,20 +27,26 @@
 
           if (response.ok) {
             const result = await response.json();
-
-            // Dodaj nową wiadomość do kontenera
+            
             const newMessageDiv = document.createElement('div');
             newMessageDiv.className = 'message';
             newMessageDiv.innerHTML = `
-                    <p>
-                        <span>${new Date().toLocaleString()}</span>
-                    </p>
-                    <p>${result.newMessage}</p>
-                `;
+            <p>
+              <span>${new Date().toLocaleString()}</span>
+            </p>
+            <p>${result.newMessage}</p>
+          `;
 
-            // Dodaj nową wiadomość na początek listy
             const messagesList = messagesContainer.querySelector('h3').nextElementSibling;
             messagesList.insertBefore(newMessageDiv, messagesList.firstChild);
+
+            if (newStatus === 'wysłane' && !result.error) {
+              window.open(`/orders/${orderId}/shipping-label`, '_blank');
+            }
+
+            if (result.error) {
+              alert(result.error);
+            }
 
             console.log('Status zaktualizowany:', result.status);
           } else {
@@ -48,11 +54,10 @@
           }
         } catch (error) {
           console.error('Wystąpił błąd:', error);
+          alert('Wystąpił błąd podczas aktualizacji statusu');
           statusSelect.value = statusSelect.getAttribute('data-previous-value');
         }
       });
-
-      // Zapisujemy początkową wartość
       statusSelect.setAttribute('data-previous-value', statusSelect.value);
     });
   </script>

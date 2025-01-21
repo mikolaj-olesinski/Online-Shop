@@ -37,7 +37,7 @@ public class MessageService {
 
             case "wysłane":
                 return "Dzień dobry " + customerName + ", Twoje zamówienie zostało właśnie wysłane! " +
-                        "Spodziewaj się dostawy w ciągu najbliższych dni.";
+                        "Spodziewaj się dostawy w ciągu najbliższych dni. W załączniku znajdziesz list przewozowy.";
 
             case "anulowane":
                 return "Dzień dobry " + customerName + ", informujemy, że zamówienie zostało anulowane. " +

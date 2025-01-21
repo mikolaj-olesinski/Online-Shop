@@ -67,14 +67,15 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}/details")
-    public String productDetails(@PathVariable Long productId, Model model) {
+    public String productDetails(@PathVariable Long productId, Model model, Authentication authentication) {
         Product product = productService.getProductById(productId);
 
         List<Comment> comments = commentRepository.findByProductId(productId);
 
         model.addAttribute("product", product);
         model.addAttribute("comments", comments);
-        model.addAttribute("isAdmin", true); // lub twoja rzeczywista logika sprawdzania admina
+        boolean isAdmin = SecurityUtils.isAdmin(authentication);
+        model.addAttribute("isAdmin", isAdmin);
         return "product/details";
     }
 

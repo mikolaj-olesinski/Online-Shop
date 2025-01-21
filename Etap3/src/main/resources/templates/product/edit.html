@@ -44,7 +44,6 @@
           <textarea th:field="*{description2}" class="input-field" rows="3"></textarea>
         </div>
 
-        <!-- Przycisk "Zapisz zmiany" bezpośrednio pod opis2 -->
         <div class="save-button-container" style="text-align: left; margin-top: 20px;">
           <button type="submit" class="save-button">Zapisz zmiany</button>
         </div>
@@ -53,10 +52,10 @@
       <div class="photos-section edit-view">
         <!-- Foto 1 -->
         <div class="photo-box" onclick="toggleEditField('image-url1')">
-          <div th:if="${product.image1 != null}">
+          <div th:if="${product.image1 != null and product.image1 != ''}">
             <img th:src="${product.image1}" alt="Product image1" />
           </div>
-          <div th:if="${product.image1 == null}">
+          <div th:if="${product.image1 == null or product.image1 == ''}">
             <span>Dodaj zdjęcie</span>
           </div>
           <input type="text" id="image-url1" th:field="*{image1}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
@@ -64,10 +63,10 @@
 
         <!-- Foto 2 -->
         <div class="photo-box" onclick="toggleEditField('image-url2')">
-          <div th:if="${product.image2 != null}">
+          <div th:if="${product.image2 != null and product.image2 != ''}">
             <img th:src="${product.image2}" alt="Product image2" />
           </div>
-          <div th:if="${product.image2 == null}">
+          <div th:if="${product.image2 == null or product.image2 == ''}">
             <span>Dodaj zdjęcie</span>
           </div>
           <input type="text" id="image-url2" th:field="*{image2}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
@@ -75,10 +74,10 @@
 
         <!-- Foto 3 -->
         <div class="photo-box" onclick="toggleEditField('image-url3')">
-          <div th:if="${product.image3 != null}">
+          <div th:if="${product.image3 != null and product.image3 != ''}">
             <img th:src="${product.image3}" alt="Product image3" />
           </div>
-          <div th:if="${product.image3 == null}">
+          <div th:if="${product.image3 == null or product.image3 == ''}">
             <span>Dodaj zdjęcie</span>
           </div>
           <input type="text" id="image-url3" th:field="*{image3}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
@@ -86,10 +85,10 @@
 
         <!-- Foto 4 -->
         <div class="photo-box" onclick="toggleEditField('image-url4')">
-          <div th:if="${product.image4 != null}">
+          <div th:if="${product.image4 != null and product.image4 != ''}">
             <img th:src="${product.image4}" alt="Product image4" />
           </div>
-          <div th:if="${product.image4 == null}">
+          <div th:if="${product.image4 == null or product.image4 == ''}">
             <span>Dodaj zdjęcie</span>
           </div>
           <input type="text" id="image-url4" th:field="*{image4}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
