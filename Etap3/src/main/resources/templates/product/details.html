@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="photos-section">
+    <div class="photos-section details-view">
       <div class="photo-box">
         <img th:src="${product.image1}" alt="Product image1" th:if="${product.image1}">
       </div>
@@ -63,6 +63,44 @@
 
       <div class="photo-box">
         <img th:src="${product.image4}" alt="Product image4" th:if="${product.image4}">
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <h2>Komentarze:</h2>
+
+      <!-- Pętla wyświetlająca komentarze -->
+      <div th:each="comment : ${comments}">
+        <div class="comment-box">
+          <!-- Ikona profilowa i nazwa użytkownika -->
+          <div class="comment-header">
+            <div class="profile-image">
+              <img src="https://static-00.iconduck.com/assets.00/profile-user-icon-1024x1024-5fg7tz2z.png" alt="Profil" class="profile-img" />
+            </div>
+            <div class="user-info">
+              <strong th:text="${comment.user.userName}">Jan Kowalski</strong>
+            </div>
+            <div class="rating">
+              <span th:text="${comment.rating}">5</span>/5
+            </div>
+          </div>
+
+          <!-- Treść komentarza -->
+          <div class="comment-content">
+            <p th:text="${comment.content}">Świetny produkt!</p>
+          </div>
+
+          <!-- Przycisk usunięcia komentarza tylko dla admina -->
+          <div th:if="${isAdmin}" class="delete-comment-container">
+            <a th:href="@{/product/{productId}/remove-comment(productId=${product.id}, id=${comment.id})}"
+               onclick="return confirm('Czy na pewno chcesz usunąć ten komentarz?');"
+               class="delete-comment-btn">
+              Usuń
+            </a>
+          </div>
+
+
+        </div>
       </div>
     </div>
   </div>

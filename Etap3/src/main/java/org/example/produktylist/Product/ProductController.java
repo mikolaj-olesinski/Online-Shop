@@ -1,6 +1,8 @@
 package org.example.produktylist.Product;
 
 import org.example.produktylist.Category.CategoryService;
+import org.example.produktylist.Comment.Comment;
+import org.example.produktylist.Comment.CommentRepository;
 import org.example.produktylist.Service.SecurityUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,12 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final CommentRepository commentRepository;
 
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, CommentRepository commentRepository) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.commentRepository = commentRepository;
     }
 
     @GetMapping("/")
@@ -64,8 +68,13 @@ public class ProductController {
 
     @GetMapping("/{productId}/details")
     public String productDetails(@PathVariable Long productId, Model model) {
-        model.addAttribute("product", productService.getProductById(productId));
-        model.addAttribute("isAdmin", true); // or your actual admin check
+        Product product = productService.getProductById(productId);
+
+        List<Comment> comments = commentRepository.findByProductId(productId);
+
+        model.addAttribute("product", product);
+        model.addAttribute("comments", comments);
+        model.addAttribute("isAdmin", true); // lub twoja rzeczywista logika sprawdzania admina
         return "product/details";
     }
 
@@ -74,4 +83,13 @@ public class ProductController {
         productService.deleteProductById(productId);
         return "redirect:/product/";
     }
+
+    @GetMapping("/{productId}/remove-comment")
+    public String removeComment(@PathVariable Long productId, @RequestParam Long id) {
+        // Usuwamy komentarz z bazy danych
+        commentRepository.deleteById(id);
+        // Po usunięciu przekierowujemy do strony szczegółów produktu
+        return "redirect:/product/" + productId + "/details";
+    }
+
 }

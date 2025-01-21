@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edycja zamówienia</title>
+    <link rel="stylesheet" href="/order.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Edycja zamówienia <span th:text="${order.id}">12345</span></h1>
+        <a th:href="@{/orders/{orderId}(orderId=${order.id})}" class="back-button">Powrót do szczegółów</a>
+    </div>
+
+    <form th:action="@{/orders/{orderId}/edit(orderId=${order.id})}" method="post">
+        <div class="info-section">
+            <div class="info-box">
+                <h3>Informacje o zamówieniu</h3>
+                <p><strong>Zapłacono:</strong> <span th:text="${order.cart.totalPrice + ' zł'}" readonly>0 zł</span></p>
+                <p>
+                    <strong>Status:</strong>
+                    <select name="status" required>
+                        <option value="w realizacji" th:selected="${order.status == 'w realizacji'}">w realizacji</option>
+                        <option value="wysłane" th:selected="${order.status == 'wysłane'}">wysłane</option>
+                        <option value="anulowane" th:selected="${order.status == 'anulowane'}">anulowane</option>
+                        <option value="dostarczone" th:selected="${order.status == 'dostarczone'}">dostarczone</option>
+                    </select>
+                </p>
+                <p>
+                    <strong>Data złożenia:</strong>
+                    <input type="date" name="deliveryDate" th:value="${order.deliveryDate}" required>
+                </p>
+                <p>
+                    <strong>Data w statusie:</strong>
+                    <input type="date" name="statusDate" th:value="${order.statusDate}" required>
+                </p>
+                <p>
+                    <strong>Sposób wysyłki:</strong>
+                    <select name="dataForm.deliveryType" required>
+                        <option value="Za pobraniem" th:selected="${order.dataForm.deliveryType == 'Za pobraniem'}">Za pobraniem</option>
+                        <option value="Przedpłata" th:selected="${order.dataForm.deliveryType == 'Przedpłata'}">Przedpłata</option>
+                        <option value="Kurier" th:selected="${order.dataForm.deliveryType == 'Kurier'}">Kurier</option>
+                    </select>
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Adres dostawy</h3>
+                <p>
+                    <strong>Imię:</strong>
+                    <input type="text" name="dataForm.firstName" th:value="${order.dataForm.firstName}" required>
+                </p>
+                <p>
+                    <strong>Nazwisko:</strong>
+                    <input type="text" name="dataForm.lastName" th:value="${order.dataForm.lastName}" required>
+                </p>
+                <p>
+                    <strong>Firma:</strong>
+                    <input type="text" name="dataForm.company" th:value="${order.dataForm.company}">
+                </p>
+                <p>
+                    <strong>Adres:</strong>
+                    <input type="text" name="dataForm.address" th:value="${order.dataForm.address}" required>
+                </p>
+                <p>
+                    <strong>Kod pocztowy:</strong>
+                    <input type="text" name="dataForm.postalCode" th:value="${order.dataForm.postalCode}" required>
+                </p>
+                <p>
+                    <strong>Miasto:</strong>
+                    <input type="text" name="dataForm.city" th:value="${order.dataForm.city}" required>
+                </p>
+                <p>
+                    <strong>Województwo:</strong>
+                    <input type="text" name="dataForm.state" th:value="${order.dataForm.state}" required>
+                </p>
+                <p>
+                    <strong>Kraj:</strong>
+                    <input type="text" name="dataForm.country" th:value="${order.dataForm.country}" required>
+                </p>
+            </div>
+        </div>
+
+        <h3>Przedmioty (tylko podgląd)</h3>
+        <table class="products-table">
+            <thead>
+            <tr>
+                <th>ID PROD</th>
+                <th>NAZWA</th>
+                <th>ILOŚĆ</th>
+                <th>CENA</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${order.cart.items}">
+                <td th:text="${item.product.id}">axc123</td>
+                <td th:text="${item.product.name}">Pralka Super 300</td>
+                <td th:text="${item.quantity}">1</td>
+                <td th:text="${item.product.price + ' zł'}">500.99zł</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="button-group">
+            <button type="submit" class="save-button">Zapisz zmiany</button>
+            <a th:href="@{/orders/{orderId}(orderId=${order.id})}" class="cancel-button">Anuluj</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .button-group {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .save-button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .save-button:hover {
+        background-color: #45a049;
+    }
+
+    .cancel-button {
+        padding: 10px 20px;
+        background-color: #f44336;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    .cancel-button:hover {
+        background-color: #da190b;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+        width: 200px;
+        padding: 5px;
+        margin-left: 10px;
+    }
+
+    .info-box p {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .info-box strong {
+        min-width: 150px;
+    }
+</style>
+</body>
+</html>

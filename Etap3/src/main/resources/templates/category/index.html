@@ -8,11 +8,10 @@
 <body>
 
 <nav class="navbar">
-  <div class="logo">Shop</div>
   <div class="nav-links">
     <a href="/product/" th:if="${isAdmin}">Produkty</a>
     <a href="/category/" th:if="${isAdmin}">Kategorie</a>
-    <a href="/cart/">Koszyk</a>
+    <a href="/orders/">Zamowienia</a>
     <a href="/logout">Wyloguj</a>
   </div>
 </nav>

@@ -1,36 +1,50 @@
 /* Ogólne stylizacje */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
 h1 {
-    color: #007bff;
+    color: #2c3e50;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    font-size: 2.2rem;
+    font-weight: 600;
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #3498db;
+    margin: 10px auto 0;
 }
 
 a {
     text-decoration: none;
-    color: #007bff;
+    color: #3498db;
+    transition: all 0.3s ease;
 }
 
 a:hover {
-    text-decoration: underline;
-}
-/* Ogólne stylizacje */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    color: #343a40;
+    color: #2980b9;
 }
 
 /* Nawigacja */
 .navbar {
-    background-color: #343a40;
+    background-color: #2c3e50;
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -38,124 +52,101 @@ body {
 
 .navbar a {
     color: white;
-    margin: 0 10px;
-    font-size: 16px;
+    margin: 0 15px;
+    font-size: 15px;
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .navbar a:hover {
-    color: #007bff;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #3498db;
 }
 
-.navbar .nav-links {
-    display: flex;
-}
+/* Product Details */
 .product-details {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 30px;
 }
-
-.info-group {
-    margin-bottom: 15px;
-}
-
-.input-field {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-
-
-.photo-box {
-    aspect-ratio: 1;
-    background-color: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #ddd;
-    cursor: pointer;
-}
-
-.photo-box:hover {
-    background-color: #e0e0e0;
-}
-
-.save-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.action-button {
-    padding: 8px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-}
-
-.edit-button {
-    background-color: #ffd700;
-}
-
-.delete-button {
-    background-color: #ff4444;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ecf0f1;
 }
 
 .details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 40px;
+    margin-top: 30px;
 }
 
+.info-group {
+    margin-bottom: 25px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
 
 .info-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #666;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
 }
 
 .info-value {
-    font-size: 16px;
-    padding: 5px 0;
+    font-size: 1rem;
+    color: #2c3e50;
+    line-height: 1.5;
 }
 
+.input-field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+    outline: none;
+}
+
+/* Photos Section */
 .photos-section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 20px;
 }
 
 .photo-box {
     aspect-ratio: 1;
-    background-color: #f0f0f0;
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px dashed #bdc3c7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
+
 
 .photo-box img {
     max-width: 100%;
@@ -163,76 +154,271 @@ body {
     object-fit: contain;
 }
 
+/* Buttons */
 .save-button {
-    background-color: #4CAF50;
+    background-color: #2ecc71;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .save-button:hover {
-    background-color: #45a049;
+    background-color: #27ae60;
+    transform: translateY(-1px);
 }
 
+.action-button {
+    padding: 10px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-button {
+    background-color: #f1c40f;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+}
+
+.action-button:hover {
+    transform: scale(1.1);
+}
+
+/* Products Grid */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 30px;
 }
 
 .product-card {
-    border: 1px solid #ddd;
-    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
     text-align: center;
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    text-decoration: none;
-    color: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
 }
 
 .product-image {
     width: 100%;
     height: 300px;
     object-fit: contain;
+    margin-bottom: 15px;
 }
 
 .product-info {
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px 0;
+    padding: 15px;
 }
 
 .product-name {
-    font-size: 18px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
 }
 
 .product-price {
-    color: red;
-    font-size: 20px;
-    font-weight: bold;
+    color: #e74c3c;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 10px 0;
 }
 
 .product-code {
-    color: #666;
-    font-size: 14px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
 }
+
+/* Comments Section */
+.comments-section {
+    margin-top: 50px;
+    grid-column: span 2;
+}
+
+.comment-box {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    border: 2px solid #3498db;
+}
+
+.rating {
+    background: #f1c40f;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.delete-comment-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.delete-comment-btn:hover {
+    background-color: #c0392b;
+}
+
+
 
 .nasze-produkty {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 20px;
+    gap: 15px;
+    padding: 30px 50px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.nasze-produkty h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
 }
 
 .add-icon {
-    color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: #2ecc71;
+    color: white;
+    border-radius: 50%;
     font-size: 24px;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
+
+.add-icon:hover {
+    background-color: #27ae60;
+    transform: scale(1.1);
+}
+
+.photos-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Style dla zdjęć w widoku szczegółów */
+.details-view .photo-box {
+    aspect-ratio: 1;
+    background-color: white;
+    display: none; /* Domyślnie ukryte */
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Pokazuj photo-box tylko jeśli zawiera zdjęcie */
+.details-view .photo-box:has(img) {
+    display: flex;
+}
+
+.details-view .photo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Style dla zdjęć w widoku edycji/dodawania */
+.edit-view .photo-box {
+    aspect-ratio: 1;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #bdc3c7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.edit-view .photo-box:hover {
+    border-color: #3498db;
+    background-color: #f7f9fc;
+}
+
+.edit-view .photo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.edit-view .photo-box span {
+    color: #95a5a6;
+    font-size: 0.9rem;
+}
+
+/* Style dla pola input w widoku edycji */
+.edit-view .photo-box input[type="text"] {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+    display: none;
+}
+
+.edit-view .photo-box input[type="text"]:focus {
+    outline: none;
+    background: white;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+

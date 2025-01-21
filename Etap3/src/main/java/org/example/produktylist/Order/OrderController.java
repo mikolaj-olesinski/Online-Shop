@@ -1,11 +1,18 @@
 package org.example.produktylist.Order;
 
 import org.example.produktylist.DataForm.DataForm;
+import org.example.produktylist.Message.Message;
+import org.example.produktylist.ShippingLabel.ShippingLabelService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.example.produktylist.Message.MessageService;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -13,9 +20,13 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
+    private final MessageService messageService; // Dodajemy usługę obsługującą wiadomości
+    private final ShippingLabelService shippingLabelService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, MessageService messageService, ShippingLabelService shippingLabelService) {
         this.orderService = orderService;
+        this.messageService = messageService;
+        this.shippingLabelService = shippingLabelService;
     }
 
     // Lista wszystkich zamówień
@@ -30,6 +41,10 @@ public class OrderController {
     public String orderDetails(@PathVariable Long orderId, Model model) {
         Order order = orderService.getOrderById(orderId);
         model.addAttribute("order", order);
+
+        List<Message> messages = messageService.getMessagesByOrderId(orderId);
+        model.addAttribute("messages", messages);
+
         return "orders/details";
     }
 
@@ -76,10 +91,39 @@ public class OrderController {
 
         // Zaktualizuj status
         order.setStatus(status);
+        order.setStatusDate(java.time.LocalDate.now().toString());
 
-        // Zapisz zmiany
+        // Zapisz zmiany w zamówieniu
         orderService.saveOrder(order);
 
-        return ResponseEntity.ok(Map.of("message", "Status zaktualizowany pomyślnie", "status", status));
+        // Wygeneruj i zapisz odpowiednią wiadomość
+        String messageContent = messageService.getMessageForStatus(status, order);
+        Message message = messageService.createMessage(order, messageContent);
+
+        // Zwróć odpowiedź JSON z komunikatem
+        return ResponseEntity.ok(Map.of(
+                "message", "Status zaktualizowany pomyślnie",
+                "status", status,
+                "newMessage", message.getContent()
+        ));
     }
+
+    @GetMapping("/{orderId}/shipping-label")
+    public ResponseEntity<byte[]> generateShippingLabel(@PathVariable Long orderId) {
+        try {
+            Order order = orderService.getOrderById(orderId);
+            byte[] pdfContent = shippingLabelService.generateShippingLabel(order);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "list-przewozowy-" + orderId + ".pdf");
+
+            return new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
 }

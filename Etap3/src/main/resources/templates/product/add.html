@@ -16,10 +16,6 @@
         <div class="details-grid">
             <div class="product-info">
                 <div class="info-group">
-                    <div class="info-label">Kod:</div>
-                    <div class="info-value" th:text="*{id}">acx123</div>
-                </div>
-                <div class="info-group">
                     <div class="info-label">Nazwa</div>
                     <input type="text" th:field="*{name}" class="input-field">
                 </div>
@@ -83,11 +79,9 @@
                     <div th:if="${product.image3 == null}">
                         <span>Dodaj zdjęcie</span>
                     </div>
-                    <!-- Pole do URL zdjęcia -->
                     <input type="text" id="image-url3" th:field="*{image3}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
                 </div>
 
-                <!-- Foto 4 -->
                 <div class="photo-box" onclick="toggleEditField('image-url4')">
                     <div th:if="${product.image4 != null}">
                         <img th:src="${product.image4}" alt="Product image4" />
@@ -95,7 +89,6 @@
                     <div th:if="${product.image4 == null}">
                         <span>Dodaj zdjęcie</span>
                     </div>
-                    <!-- Pole do URL zdjęcia -->
                     <input type="text" id="image-url4" th:field="*{image4}" placeholder="Edytuj URL zdjęcia" style="display: none;" />
                 </div>
             </div>
@@ -105,21 +98,19 @@
 
 <script>
     function toggleEditField(imageId) {
-        const inputField = document.getElementById(imageId); // Pole tekstowe
+        const inputField = document.getElementById(imageId);
         const currentDisplay = inputField.style.display;
 
-        // Ukrywamy wszystkie inne pola tekstowe
         const allInputs = document.querySelectorAll(".photo-box input[type='text']");
         allInputs.forEach(input => {
             if (input !== inputField) {
-                input.style.display = "none"; // Ukrywamy inne pola
+                input.style.display = "none";
             }
         });
 
-        // Zmiana widoczności wybranego pola
         inputField.style.display = currentDisplay === 'block' ? 'none' : 'block';
         if (inputField.style.display === 'block') {
-            inputField.focus(); // Skupiamy uwagę na nowym polu
+            inputField.focus();
         }
     }
 </script>

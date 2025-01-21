@@ -5,14 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Szczegóły zamówienia</title>
   <link rel="stylesheet" href="/order.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const statusSelect = document.querySelector('.status-select');
+      const orderId = document.querySelector('h1 span').textContent;
+      const messagesContainer = document.querySelector('.messages');
+
+      statusSelect.addEventListener('change', async function(e) {
+        const newStatus = e.target.value;
+
+        try {
+          const response = await fetch(`/orders/${orderId}/update-status`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              status: newStatus
+            })
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+
+            // Dodaj nową wiadomość do kontenera
+            const newMessageDiv = document.createElement('div');
+            newMessageDiv.className = 'message';
+            newMessageDiv.innerHTML = `
+                    <p>
+                        <span>${new Date().toLocaleString()}</span>
+                    </p>
+                    <p>${result.newMessage}</p>
+                `;
+
+            // Dodaj nową wiadomość na początek listy
+            const messagesList = messagesContainer.querySelector('h3').nextElementSibling;
+            messagesList.insertBefore(newMessageDiv, messagesList.firstChild);
+
+            console.log('Status zaktualizowany:', result.status);
+          } else {
+            throw new Error('Błąd podczas aktualizacji statusu');
+          }
+        } catch (error) {
+          console.error('Wystąpił błąd:', error);
+          statusSelect.value = statusSelect.getAttribute('data-previous-value');
+        }
+      });
+
+      // Zapisujemy początkową wartość
+      statusSelect.setAttribute('data-previous-value', statusSelect.value);
+    });
+  </script>
 </head>
 <body>
 <div class="container">
   <div class="header">
     <h1>Zamówienie <span th:text="${order.id}">12345</span></h1>
-    <a href="/orders" class="back-button">Powrót do listy</a>
-    <a th:href="@{/orders/edit/{orderId}(orderId=${order.id})}" class="edit-button">Edytuj zamówienie</a>
+    <div class="button-group">
+      <a th:href="@{/orders/edit/{orderId}(orderId=${order.id})}" class="edit-button">Edytuj zamówienie</a>
+      <a th:href="@{/orders/{orderId}/shipping-label(orderId=${order.id})}"
+         class="shipping-label-button"
+         target="_blank">
+        Generuj list przewozowy
+      </a>
+      <a href="/orders" class="back-button">Powrót do listy</a>
+    </div>
   </div>
+
 
   <div class="info-section">
     <div class="info-box">
@@ -20,10 +79,10 @@
       <p><strong>Zapłacono:</strong> <span th:text="${order.cart.totalPrice + ' zł'}">0 zł z 300.22 zł</span></p>
       <p><strong>Status:</strong>
         <select class="status-select" name="status" th:value="${order.status}">
-          <option value="w realizacji">w realizacji</option>
-          <option value="wysłane">wysłane</option>
-          <option value="anulowane">anulowane</option>
-          <option value="dostarczone">dostarczone</option>
+          <option value="w realizacji" th:selected="${order.status == 'w realizacji'}">w realizacji</option>
+          <option value="wysłane" th:selected="${order.status == 'wysłane'}">wysłane</option>
+          <option value="anulowane" th:selected="${order.status == 'anulowane'}">anulowane</option>
+          <option value="dostarczone" th:selected="${order.status == 'dostarczone'}">dostarczone</option>
         </select>
       </p>
       <p><strong>Data złożenia:</strong> <span th:text="${order.deliveryDate}">26.11.2024</span></p>
@@ -66,10 +125,9 @@
     <h3>Wymiana wiadomości</h3>
     <div th:each="message : ${messages}" class="message">
       <p>
-        <strong th:text="${message.author}">Pracownik</strong>
         <span th:text="${message.date}">26.11.2024 10:23</span>
       </p>
-      <p th:text="${message.text}">Dziękujemy za złożenie zamówienia jest ono w relizacji cos cos</p>
+      <p th:text="${message.content}">Dziękujemy za złożenie zamówienia, jest ono w realizacji. Cos cos...</p>
     </div>
   </div>
 </div>
