@@ -17,7 +17,11 @@
         <div class="info-section">
             <div class="info-box">
                 <h3>Informacje o zamówieniu</h3>
-                <p><strong>Zapłacono:</strong> <span th:text="${order.cart.totalPrice + ' zł'}" readonly>0 zł</span></p>
+                <p><strong>Łączna cena:</strong> <span th:text="${order.cart.totalPrice + ' zł'}">0 zł</span></p>
+                <p>
+                    <strong>Zapłacono:</strong>
+                    <input type="text" name="paid-dummy" th:value="${order.cart.totalPrice + ' zł'}">
+                </p>
                 <p>
                     <strong>Status:</strong>
                     <select name="status" required>

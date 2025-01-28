@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edycja produktu</title>
+    <title>Dodanie produktu</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
 <div class="product-details">
     <div class="header">
-        <h1>Edycja produktu</h1>
+        <h1>Dodanie produktu</h1>
     </div>
 
     <form th:action="@{/product/edit}" method="POST" th:object="${product}">
@@ -40,7 +40,6 @@
                     <textarea th:field="*{description2}" class="input-field" rows="3"></textarea>
                 </div>
 
-                <!-- Przycisk "Zapisz zmiany" bezpośrednio pod opis2 -->
                 <div class="save-button-container" style="text-align: left; margin-top: 20px;">
                     <button type="submit" class="save-button">Zapisz zmiany</button>
                 </div>
