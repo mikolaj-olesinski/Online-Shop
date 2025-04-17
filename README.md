@@ -1,6 +1,6 @@
-# ProduktyList – Spring Boot E-commerce Platform
+#Spring Boot Online Shop
 
-**ProduktyList** is a comprehensive e-commerce platform built with Spring Boot. It provides full product management, shopping cart functionality, order processing, and administrative features. The system includes secure authentication and clearly separates roles for admin and regular users.
+This project is a comprehensive e-commerce platform built with Spring Boot. It provides full product management, shopping cart functionality, order processing, and administrative features. The system includes secure authentication and clearly separates roles for admin and regular users.
 
 ---
 
@@ -24,7 +24,12 @@
 - Add, edit, delete, and view products  
 - Assign products to hierarchical categories  
 - Upload images and detailed descriptions  
-- Users can post ratings and comments  
+- Users can post ratings and comments
+<img width="1679" alt="Zrzut ekranu 2025-04-17 o 12 45 33" src="https://github.com/user-attachments/assets/3ca35e45-73b4-414c-a19e-91d68d644cdd" />
+
+  
+<img width=![Uploading Zrzut ekranu 2025-04-17 o 12.45.33.png…]()
+"1023" alt="Zrzut ekranu 2025-04-17 o 12 46 18" src="https://github.com/user-attachments/assets/28bc4aec-335a-433c-87ea-88746ae37ab4" />
 
 ---
 
@@ -32,6 +37,7 @@
 
 - Create, update, and delete categories  
 - Support for nested categories  
+<img width="1678" alt="Zrzut ekranu 2025-04-17 o 12 45 49" src="https://github.com/user-attachments/assets/fa462e1e-4a9f-433b-9f63-73dff5006459" />
 
 ---
 
@@ -42,6 +48,9 @@
 - View order history and details  
 - Admin-user messaging system within orders  
 - Generate shipping labels (PDF with iText)  
+
+<img width="1061" alt="Zrzut ekranu 2025-04-17 o 12 46 01" src="https://github.com/user-attachments/assets/2fad1122-99a5-4839-9433-fb71b85e3c4d" />
+<img width="986" alt="Zrzut ekranu 2025-04-17 o 12 46 08" src="https://github.com/user-attachments/assets/702899f8-2d9a-4f2b-bfa4-b02fcd0d92a9" />
 
 ---
 
@@ -60,6 +69,8 @@
 - Activity diagrams  
 - Class diagrams  
 - Sequence diagrams  
+
+<img width="769" alt="Zrzut ekranu 2025-04-17 o 13 00 09" src="https://github.com/user-attachments/assets/cada94e5-5479-4180-84a9-d04af8658f42" />
 
 ---
 
