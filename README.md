@@ -68,7 +68,9 @@ This project is a comprehensive e-commerce platform built with Spring Boot. It p
 
 - Activity diagrams  
 - Class diagrams  
-- Sequence diagrams  
+- Sequence diagrams
+- Domain Class Diagram
+- Use Case Diagram
 
 <img width="769" alt="Zrzut ekranu 2025-04-17 o 13 00 09" src="https://github.com/user-attachments/assets/cada94e5-5479-4180-84a9-d04af8658f42" />
 
